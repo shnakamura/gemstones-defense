@@ -1,0 +1,9 @@
+displayName = Gemstones Defense
+author = vatheryl
+version = 0.1
+
+hideCode = false
+hideResources = false
+
+includePDB = true
+includeSource = true

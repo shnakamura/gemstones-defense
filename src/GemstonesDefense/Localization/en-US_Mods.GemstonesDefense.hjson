@@ -1,0 +1,89 @@
+Items: {
+	CabochonCloakItem: {
+		DisplayName: Cabochon Cloak
+		Tooltip:
+			'''
+			+10% health regeneration
+			+10% mana regeneration
+			+10% mining speed
+			+10% critical strike chance
+			Causes enemies to drop 100% more money
+			'''
+		Ability:
+			'''
+			Obsidian Obelisk: While equipped alongside the 'Cabochon Cowl', double press and
+			hold the [UP] button to become a statue and gain the Granite Golem's invincibility
+			for as long as the [UP] button is held.
+			'''
+	}
+
+	CabochonCowlItem: {
+		DisplayName: Cabochon Cowl
+		Tooltip: +1 luck
+		Ability:
+			'''
+			Obsidian Obelisk: While equipped alongside the 'Cabochon Cloak', double press and
+			hold the [UP] button to become a statue and gain the Granite Golem's invincibility
+			for as long as the [UP] button is held.
+			'''
+	}
+
+	RubyRoostItem: {
+		DisplayName: Ruby Roost
+		Tooltip: The enscription says: It hangs upon nothing...
+	}
+
+	CabochonBladeItem: {
+		DisplayName: Cabochon Blade
+		Tooltip: ""
+	}
+
+	CabochonBootsItem: {
+		DisplayName: Cabochon Boots
+		Tooltip: ""
+	}
+
+	CabochonChestplateItem: {
+		DisplayName: Cabochon Chestplate
+		Tooltip: ""
+	}
+
+	ArborealArmbandItem: {
+		DisplayName: Arboreal Armband
+		Tooltip: ""
+	}
+
+	CabochonHeavyBladeItem: {
+		DisplayName: Cabochon Heavy Blade
+		Tooltip: ""
+	}
+}
+
+Buffs: {
+	RubyRoostBuff: {
+		DisplayName: Ruby Roost
+		Description: It hangs upon nothing...
+	}
+
+	ObsidianArmorBuff: {
+		DisplayName: Obsidian Armor
+		Description: Impenetrable
+	}
+
+	OnyxOwlBuff: {
+		DisplayName: Onyx Owl
+		Description: Diamond eyes to light the way
+	}
+
+	FaoladhsForestBuff: {
+		DisplayName: Name
+		Description: Description
+	}
+}
+
+Projectiles: {
+	RubyRoostProjectile.DisplayName: Ruby Roost
+	OnyxOwlProjectile.DisplayName: Onyx Owl
+}
+
+"Keybinds.GemstonesDefense:HowlAbility.DisplayName": Howl Ability
