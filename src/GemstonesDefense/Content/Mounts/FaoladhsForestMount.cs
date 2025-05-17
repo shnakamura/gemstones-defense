@@ -37,9 +37,8 @@ public class FaoladhsForestMount : ModMount
     /// </summary>
     public const int ANIMATION_ABILITY_START = 21;
 
-    public static readonly Asset<Texture2D> AbilityTexture = ModContent.Request<Texture2D>($"{nameof(GemstonesDefense)}/Assets/Textures/InverseMask");
-
-    public override void SetStaticDefaults() {
+    public override void SetStaticDefaults()
+    {
         base.SetStaticDefaults();
 
         MountData.buff = ModContent.BuffType<FaoladhsForestBuff>();
@@ -74,7 +73,8 @@ public class FaoladhsForestMount : ModMount
         offsets[1] = 10;
         offsets[2] = 25;
 
-        for (var i = 3; i < MountData.totalFrames; i++) {
+        for (var i = 3; i < MountData.totalFrames; i++)
+        {
             offsets[i] = 50;
         }
 
@@ -104,7 +104,8 @@ public class FaoladhsForestMount : ModMount
         MountData.swimFrameDelay = MountData.inAirFrameDelay;
         MountData.swimFrameStart = MountData.inAirFrameStart;
 
-        if (Main.dedServ) {
+        if (Main.dedServ)
+        {
             return;
         }
 
@@ -112,75 +113,116 @@ public class FaoladhsForestMount : ModMount
         MountData.textureHeight = MountData.backTexture.Height();
     }
 
-    public override void SetMount(Player player, ref bool skipDust) {
+    public override void SetMount(Player player, ref bool skipDust)
+    {
         base.SetMount(player, ref skipDust);
 
-        player.mount._mountSpecificData = new AnimationData {
-            Spawn = true
-        };
+        player.mount._mountSpecificData = new AnimationData(true, false);
     }
 
-    public override bool UpdateFrame(Player mountedPlayer, int state, Vector2 velocity) {
+    public override void UpdateEffects(Player player)
+    {
+        base.UpdateEffects(player);
+
+        player.fullRotation = player.velocity.Y == 0f ? 0f : player.fullRotation.AngleLerp(-player.velocity.X * 0.025f, 0.1f);
+
+        if (MathF.Abs(player.velocity.X) <= 8f || !Main.rand.NextBool(2))
+        {
+            return;
+        }
+        
+        Collision.HitTiles(player.Bottom, player.velocity, 1, 1);
+    }
+    
+    public override bool UpdateFrame(Player mountedPlayer, int state, Vector2 velocity)
+    {
         var mount = mountedPlayer.mount;
 
-        if (mount._mountSpecificData is AnimationData data) {
-            if (data.Spawn) {
-                mount._frameCounter++;
-
-                if (mount._frame < ANIMATION_SPAWN_START) {
-                    mount._frame = ANIMATION_SPAWN_START;
-                }
-
-                if (mount._frame > ANIMATION_SPAWN_START + 2) {
-                    data.Spawn = false;
-                }
-                else if (mount._frameCounter > 3f) {
-                    mount._frame++;
-                    mount._frameCounter = 0f;
-                }
-                
-                return false;
+        if (mount._mountSpecificData is AnimationData data)
+        {
+            if (data.Spawn)
+            {
+                return UpdateSpawnAnimation(mount, data);
             }
-            else if (data.Ability) {
-                mount._frameCounter++;
 
-                if (mount._frame < ANIMATION_ABILITY_START) {
-                    mount._frame = ANIMATION_ABILITY_START;
-                }
-
-                if (mount._frame > MountData.totalFrames - 2) {
-                    data.Ability = false;
-                }
-                else if (mount._frameCounter > 5f) {
-                    mount._frame++;
-                    mount._frameCounter = 0f;
-                }
-                
-                return false;
+            if (data.Ability)
+            {
+                return UpdateAbilityAnimation(mount, data);
             }
         }
 
-        var running = Math.Abs(velocity.X) >= mountedPlayer.mount.RunSpeed * 0.9f;
+        var running = Math.Abs(velocity.X) >= mountedPlayer.mount.RunSpeed * 0.9f && state == 1;
 
-        if (running && state == 1) {
-            mount._frameCounter++;
-
-            if (mount._frame > ANIMATION_RUNNING_START + 5) {
-                mount._frame = ANIMATION_RUNNING_START;
-            }
-
-            if (mount._frameCounter > 3f) {
-                mount._frame++;
-                mount._frameCounter = 0f;
-            }
-
-            return false;
-        }
-
-        return base.UpdateFrame(mountedPlayer, state, velocity);
+        return running ? UpdateRunningAnimation(mount) : base.UpdateFrame(mountedPlayer, state, velocity);
     }
 
-    public override bool Draw(List<DrawData> playerDrawData,
+    private static bool UpdateSpawnAnimation(Mount mount, AnimationData data)
+    {
+        mount._frameCounter++;
+
+        if (mount._frame < ANIMATION_SPAWN_START)
+        {
+            mount._frame = ANIMATION_SPAWN_START;
+        }
+
+        if (mount._frame > ANIMATION_SPAWN_START + 2)
+        {
+            data.Spawn = false;
+        }
+        else if (mount._frameCounter > 3f)
+        {
+            mount._frame++;
+            mount._frameCounter = 0f;
+        }
+
+        return false;
+    }
+
+    private bool UpdateAbilityAnimation(Mount mount, AnimationData data)
+    {
+        mount._frameCounter++;
+
+        if (mount._frame < ANIMATION_ABILITY_START)
+        {
+            mount._frame = ANIMATION_ABILITY_START;
+        }
+
+        if (mount._frame > MountData.totalFrames - 2)
+        {
+            data.Ability = false;
+        }
+        else if (mount._frameCounter > 5f)
+        {
+            mount._frame++;
+            mount._frameCounter = 0f;
+        }
+
+        return false;
+    }
+
+    private static bool UpdateRunningAnimation(Mount mount)
+    {
+        mount._frameCounter++;
+
+        if (mount._frame > ANIMATION_RUNNING_START + 5)
+        {
+            mount._frame = ANIMATION_RUNNING_START;
+        }
+
+        if (mount._frameCounter <= 3f)
+        {
+            return false;
+        }
+        
+        mount._frame++;
+        mount._frameCounter = 0f;
+
+        return false;
+    }
+
+    public override bool Draw
+    (
+        List<DrawData> playerDrawData,
         int drawType,
         Player drawPlayer,
         ref Texture2D texture,
@@ -194,30 +236,45 @@ public class FaoladhsForestMount : ModMount
         ref Vector2 drawOrigin,
         ref float drawScale,
         float shadow
-    ) {
-        if (drawType == 0 && drawPlayer.mount._mountSpecificData is AnimationData data && data.Ability) {
-            var progress = (drawPlayer.mount._frame - ANIMATION_ABILITY_START) / (float)(MountData.totalFrames - 2 - ANIMATION_ABILITY_START);
-
-            progress = progress * progress;
-            playerDrawData.Add(new DrawData(
-                AbilityTexture.Value,
-                drawPlayer.MountedCenter - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY),
-                null,
-                new Color(97, 162, 26, 0) * (1f - progress),
-                0f,
-                AbilityTexture.Size() / 2f,
-                (drawPlayer.mount._frame - ANIMATION_ABILITY_START) / (float)(MountData.totalFrames - 2 - ANIMATION_ABILITY_START) * 2f,
-                SpriteEffects.None
-            ));    
-        }
+    )
+    {
+        var ability = drawType == 0 && drawPlayer.mount._mountSpecificData is AnimationData data && data.Ability;
         
-        return base.Draw(playerDrawData, drawType, drawPlayer, ref texture, ref glowTexture, ref drawPosition, ref frame, ref drawColor, ref glowColor, ref rotation, ref spriteEffects, ref drawOrigin, ref drawScale, shadow);
+        var result = base.Draw
+        (
+            playerDrawData,
+            drawType,
+            drawPlayer,
+            ref texture,
+            ref glowTexture,
+            ref drawPosition,
+            ref frame,
+            ref drawColor,
+            ref glowColor,
+            ref rotation,
+            ref spriteEffects,
+            ref drawOrigin,
+            ref drawScale,
+            shadow
+        );
+        
+        if (!ability)
+        {
+            return result;
+        }
+
+        var progress = (drawPlayer.mount._frame - ANIMATION_ABILITY_START) / (float)(MountData.totalFrames - 2 - ANIMATION_ABILITY_START);
+        var scale = progress * 1.5f;
+            
+        FaoladhsForestRenderer.Draw(progress, scale);
+
+        return result;
     }
 
-    public sealed class AnimationData
+    public sealed class AnimationData(bool spawn, bool ability)
     {
-        public bool Spawn { get; set; }
-        
-        public bool Ability { get; set; }
+        public bool Spawn { get; set; } = spawn;
+
+        public bool Ability { get; set; } = ability;
     }
 }

@@ -4,7 +4,8 @@ namespace GemstonesDefense.Content.Items;
 
 public class CabochonBladeItem : ModItem
 {
-    public override void SetDefaults() {
+    public override void SetDefaults()
+    {
         base.SetDefaults();
 
         Item.autoReuse = true;
@@ -26,7 +27,8 @@ public class CabochonBladeItem : ModItem
         Item.value = Item.buyPrice(gold: 10);
     }
 
-    public override void AddRecipes() {
+    public override void AddRecipes()
+    {
         base.AddRecipes();
 
         CreateRecipe()
@@ -36,15 +38,17 @@ public class CabochonBladeItem : ModItem
             .AddIngredient(ItemID.Emerald, 5)
             .AddIngredient(ItemID.Amethyst, 5)
             .AddIngredient(ItemID.Topaz, 5)
-            .AddRecipeGroup(RecipeGroupSystem.GoldBar)
+            .AddRecipeGroup(GoldBarRecipeGroup.Group)
             .AddTile(TileID.Anvils)
             .Register();
     }
 
-    public override void MeleeEffects(Player player, Rectangle hitbox) {
+    public override void MeleeEffects(Player player, Rectangle hitbox)
+    {
         base.MeleeEffects(player, hitbox);
 
-        if (Main.dedServ) {
+        if (Main.dedServ)
+        {
             return;
         }
 
@@ -53,10 +57,12 @@ public class CabochonBladeItem : ModItem
         Lighting.AddLight(player.itemLocation, brightness, brightness, brightness);
     }
 
-    public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
+    public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+    {
         base.PostDrawInWorld(spriteBatch, lightColor, alphaColor, rotation, scale, whoAmI);
 
-        if (Main.dedServ) {
+        if (Main.dedServ)
+        {
             return;
         }
 

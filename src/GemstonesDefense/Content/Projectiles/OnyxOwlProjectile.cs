@@ -5,12 +5,12 @@ namespace GemstonesDefense.Content.Projectiles;
 
 public class OnyxOwlProjectile : ModProjectile
 {
-    private bool animate;
     private Player Owner => Main.player[Projectile.owner];
 
     private ref float Timer => ref Projectile.ai[0];
 
-    public override void SetStaticDefaults() {
+    public override void SetStaticDefaults()
+    {
         base.SetStaticDefaults();
 
         Main.projPet[Type] = true;
@@ -22,7 +22,8 @@ public class OnyxOwlProjectile : ModProjectile
         ProjectileID.Sets.TrailCacheLength[Type] = 12;
     }
 
-    public override void SetDefaults() {
+    public override void SetDefaults()
+    {
         base.SetDefaults();
 
         Projectile.tileCollide = true;
@@ -35,8 +36,14 @@ public class OnyxOwlProjectile : ModProjectile
 
         Projectile.aiStyle = -1;
     }
+    
+    public override bool OnTileCollide(Vector2 oldVelocity)
+    {
+        return false;
+    }
 
-    public override void AI() {
+    public override void AI()
+    {
         base.AI();
 
         UpdateAnimation();
@@ -45,7 +52,8 @@ public class OnyxOwlProjectile : ModProjectile
         UpdateTeleport();
         UpdateCollision();
 
-        if (Main.dedServ) {
+        if (Main.dedServ)
+        {
             return;
         }
 
@@ -53,12 +61,116 @@ public class OnyxOwlProjectile : ModProjectile
 
         Lighting.AddLight(Projectile.Center, brightness, brightness, brightness);
     }
+    
+    private void UpdateAnimation()
+    {
+        Projectile.spriteDirection = MathF.Sign(Owner.Center.X - Projectile.Center.X);
 
-    public override bool OnTileCollide(Vector2 oldVelocity) {
-        return false;
+        Projectile.frameCounter++;
+
+        var moving = Owner.velocity.Length() > 1f;
+        var frameRate = moving ? 5 - (int)MathHelper.Clamp(Projectile.velocity.Length(), 0f, 2f) : 10;
+
+        if (!moving)
+        {
+            frameRate = Projectile.frame == 0 ? 60 : frameRate;
+        }
+
+        if (Projectile.frameCounter < frameRate)
+        {
+            return;
+        }
+
+        var minFrame = moving ? 7 : 0;
+        var maxFrame = moving ? 12 : 6;
+
+        Projectile.frame++;
+
+        if (Projectile.frame > maxFrame)
+        {
+            Projectile.frame = minFrame;
+        }
+
+        Projectile.frameCounter = 0;
     }
 
-    public override bool PreDraw(ref Color lightColor) {
+    private void UpdateActive()
+    {
+        if (Owner.dead || Owner.ghost || !Owner.HasBuff<OnyxOwlBuff>())
+        {
+            return;
+        }
+
+        Projectile.timeLeft = 2;
+
+        if (Owner.active)
+        {
+            return;
+        }
+
+        Projectile.active = false;
+    }
+
+    private void UpdateCollision()
+    {
+        Projectile.tileCollide = Projectile.DistanceSQ(Owner.Center) < 50f * 16f * 50f * 16f;
+
+        if (!Projectile.tileCollide)
+        {
+            return;
+        }
+
+        if (Projectile.position.X == Projectile.oldPosition.X)
+        {
+            Projectile.velocity.Y -= 0.2f;
+        }
+        else
+        {
+            Projectile.velocity.Y *= 0.95f;
+        }
+    }
+
+    private void UpdateMovement()
+    {
+        Timer++;
+
+        if (Owner.velocity.Length() <= 1f)
+        {
+            var offset = new Vector2(0f, MathF.Sin(Timer / 20f) * 4f);
+            var position = Owner.Center + new Vector2(32f * Owner.direction, 0f) + offset;
+
+            Projectile.Center = Vector2.SmoothStep(Projectile.Center, position, 0.2f);
+
+            Projectile.velocity *= 0.95f;
+        }
+        else
+        {
+            var speed = 0.05f;
+            var rotation = Timer * speed % MathHelper.TwoPi;
+
+            var radius = 50f;
+            var offset = new Vector2(MathF.Cos(rotation) * radius, MathF.Sin(rotation) * (radius / 2f));
+
+            var position = Owner.Center + offset;
+
+            Projectile.Center = Vector2.SmoothStep(Projectile.Center, position, 0.2f);
+
+            Projectile.velocity += new Vector2(Main.rand.NextFloat(-0.3f, 0.3f), Main.rand.NextFloat(-0.3f, 0.3f));
+        }
+    }
+
+    private void UpdateTeleport()
+    {
+        if (Projectile.DistanceSQ(Owner.Center) <= 100f * 16f * 100f * 16f)
+        {
+            return;
+        }
+
+        Projectile.Center = Owner.Center;
+    }
+
+    public override bool PreDraw(ref Color lightColor)
+    {
         var texture = TextureAssets.Projectile[Type].Value;
 
         var offsetX = 0;
@@ -78,10 +190,12 @@ public class OnyxOwlProjectile : ModProjectile
 
         var length = ProjectileID.Sets.TrailCacheLength[Type];
 
-        for (var i = 0; i < length; i += 4) {
+        for (var i = 0; i < length; i += 4)
+        {
             var trailPosition = Projectile.oldPos[i] + Projectile.Size / 2f - Main.screenPosition + positionOffset;
 
-            Main.EntitySpriteDraw(
+            Main.EntitySpriteDraw
+            (
                 texture,
                 trailPosition,
                 frame,
@@ -95,7 +209,8 @@ public class OnyxOwlProjectile : ModProjectile
 
         var position = Projectile.Center - Main.screenPosition + positionOffset;
 
-        Main.EntitySpriteDraw(
+        Main.EntitySpriteDraw
+        (
             texture,
             position,
             frame,
@@ -107,96 +222,5 @@ public class OnyxOwlProjectile : ModProjectile
         );
 
         return false;
-    }
-
-    private void UpdateAnimation() {
-        Projectile.spriteDirection = MathF.Sign(Owner.Center.X - Projectile.Center.X);
-
-        Projectile.frameCounter++;
-
-        var moving = Owner.velocity.Length() > 1f;
-        var frameRate = moving ? 5 - (int)MathHelper.Clamp(Projectile.velocity.Length(), 0f, 2f) : 10;
-
-        if (!moving) {
-            frameRate = Projectile.frame == 0 ? 60 : frameRate;
-        }
-
-        if (Projectile.frameCounter < frameRate) {
-            return;
-        }
-
-        var minFrame = moving ? 7 : 0;
-        var maxFrame = moving ? 12 : 6;
-
-        Projectile.frame++;
-
-        if (Projectile.frame > maxFrame) {
-            Projectile.frame = minFrame;
-        }
-
-        Projectile.frameCounter = 0;
-    }
-
-    private void UpdateActive() {
-        if (Owner.dead || Owner.ghost || !Owner.HasBuff<OnyxOwlBuff>()) {
-            return;
-        }
-
-        Projectile.timeLeft = 2;
-
-        if (Owner.active) {
-            return;
-        }
-
-        Projectile.active = false;
-    }
-
-    private void UpdateCollision() {
-        Projectile.tileCollide = Projectile.DistanceSQ(Owner.Center) < 50f * 16f * 50f * 16f;
-
-        if (!Projectile.tileCollide) {
-            return;
-        }
-
-        if (Projectile.position.X == Projectile.oldPosition.X) {
-            Projectile.velocity.Y -= 0.2f;
-        }
-        else {
-            Projectile.velocity.Y *= 0.95f;
-        }
-    }
-
-    private void UpdateMovement() {
-        Timer++;
-
-        if (Owner.velocity.Length() <= 1f) {
-            var offset = new Vector2(0f, MathF.Sin(Timer / 20f) * 4f);
-            var position = Owner.Center + new Vector2(32f * Owner.direction, 0f) + offset;
-
-            Projectile.Center = Vector2.SmoothStep(Projectile.Center, position, 0.2f);
-
-            Projectile.velocity *= 0.95f;
-        }
-        else {
-            var speed = 0.05f;
-            var rotation = Timer * speed % MathHelper.TwoPi;
-
-            var radius = 50f;
-            var offset = new Vector2(MathF.Cos(rotation) * radius, MathF.Sin(rotation) * (radius / 2f));
-
-            var position = Owner.Center + offset;
-
-            Projectile.Center = Vector2.SmoothStep(Projectile.Center, position, 0.2f);
-
-            Projectile.velocity += new Vector2(Main.rand.NextFloat(-0.3f, 0.3f), Main.rand.NextFloat(-0.3f, 0.3f));
-        }
-    }
-
-    private void UpdateTeleport() {
-        if (Projectile.DistanceSQ(Owner.Center) <= 100f * 16f * 100f * 16f) {
-            return;
-        }
-
-        Projectile.Center = Owner.Center;
     }
 }

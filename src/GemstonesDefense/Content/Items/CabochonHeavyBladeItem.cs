@@ -2,7 +2,8 @@ namespace GemstonesDefense.Content.Items;
 
 public class CabochonHeavyBladeItem : ModItem
 {
-    public override void SetDefaults() {
+    public override void SetDefaults()
+    {
         base.SetDefaults();
 
         Item.autoReuse = true;
@@ -24,7 +25,8 @@ public class CabochonHeavyBladeItem : ModItem
         Item.value = Item.buyPrice(gold: 10);
     }
 
-    public override void AddRecipes() {
+    public override void AddRecipes()
+    {
         base.AddRecipes();
 
         CreateRecipe()
@@ -34,10 +36,12 @@ public class CabochonHeavyBladeItem : ModItem
             .Register();
     }
 
-    public override void MeleeEffects(Player player, Rectangle hitbox) {
+    public override void MeleeEffects(Player player, Rectangle hitbox)
+    {
         base.MeleeEffects(player, hitbox);
 
-        if (Main.dedServ) {
+        if (Main.dedServ)
+        {
             return;
         }
 
@@ -46,10 +50,12 @@ public class CabochonHeavyBladeItem : ModItem
         Lighting.AddLight(player.itemLocation, brightness, brightness, brightness);
     }
 
-    public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
+    public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+    {
         base.PostDrawInWorld(spriteBatch, lightColor, alphaColor, rotation, scale, whoAmI);
 
-        if (Main.dedServ) {
+        if (Main.dedServ)
+        {
             return;
         }
 

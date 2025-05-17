@@ -4,7 +4,8 @@ namespace GemstonesDefense.Content.Items;
 
 public class ArborealArmbandItem : ModItem
 {
-    public override void SetDefaults() {
+    public override void SetDefaults()
+    {
         base.SetDefaults();
 
         Item.noMelee = true;

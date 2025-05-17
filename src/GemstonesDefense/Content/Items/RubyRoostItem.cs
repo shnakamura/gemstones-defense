@@ -5,7 +5,8 @@ namespace GemstonesDefense.Content.Items;
 
 public class RubyRoostItem : ModItem
 {
-    public override void SetDefaults() {
+    public override void SetDefaults()
+    {
         base.SetDefaults();
 
         Item.noUseGraphic = true;
@@ -24,7 +25,8 @@ public class RubyRoostItem : ModItem
         Item.shoot = ModContent.ProjectileType<OnyxOwlProjectile>();
     }
 
-    public override void AddRecipes() {
+    public override void AddRecipes()
+    {
         base.AddRecipes();
 
         CreateRecipe()
@@ -34,10 +36,12 @@ public class RubyRoostItem : ModItem
             .Register();
     }
 
-    public override void UseStyle(Player player, Rectangle heldItemFrame) {
+    public override void UseStyle(Player player, Rectangle heldItemFrame)
+    {
         base.UseStyle(player, heldItemFrame);
 
-        if (player.whoAmI != Main.myPlayer || player.itemTime != 0) {
+        if (player.whoAmI != Main.myPlayer || player.itemTime != 0)
+        {
             return;
         }
 

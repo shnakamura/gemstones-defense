@@ -9,7 +9,8 @@ public sealed class CabochonCowlPlayer : ModPlayer
     /// </summary>
     public bool Enabled { get; set; }
 
-    public override void ResetEffects() {
+    public override void ResetEffects()
+    {
         base.ResetEffects();
 
         Enabled = false;

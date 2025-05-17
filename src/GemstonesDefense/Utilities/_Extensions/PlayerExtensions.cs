@@ -14,10 +14,12 @@ public static class PlayerExtensions
     /// <typeparam name="T">The type of the buff to remove.</typeparam>
     /// <returns><c>true</c> if the buff was removed; otherwise, <c>false</c>.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool TryRemoveBuff<T>(this Player player) where T : ModBuff {
+    public static bool TryRemoveBuff<T>(this Player player) where T : ModBuff
+    {
         var index = player.FindBuffIndex(ModContent.BuffType<T>());
 
-        if (index == -1) {
+        if (index == -1)
+        {
             return false;
         }
 
@@ -32,7 +34,8 @@ public static class PlayerExtensions
     /// <param name="player">The player to check.</param>
     /// <returns><c>true</c> if the player has just double tapped up; otherwise, <c>false</c>.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool JustDoubleTappedUp(this Player player) {
+    public static bool JustDoubleTappedUp(this Player player)
+    {
         return player.controlUp && player.releaseUp && player.doubleTapCardinalTimer[1] < 15;
     }
 
@@ -42,7 +45,8 @@ public static class PlayerExtensions
     /// <param name="player">The player to check.</param>
     /// <returns><c>true</c> if the player has just landed on a solid surface; otherwise, <c>false</c>.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool JustLanded(this Player player) {
+    public static bool JustLanded(this Player player)
+    {
         return player.velocity.Y == 0f && player.oldVelocity.Y != 0f;
     }
 }

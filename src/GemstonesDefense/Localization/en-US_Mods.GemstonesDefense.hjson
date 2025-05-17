@@ -86,4 +86,5 @@ Projectiles: {
 	OnyxOwlProjectile.DisplayName: Onyx Owl
 }
 
-"Keybinds.GemstonesDefense:HowlAbility.DisplayName": Howl Ability
+Recipes.Groups.GoldBar: Gold Bar
+"Keybinds.GemstonesDefense:Ability.DisplayName": Howl Ability

@@ -7,13 +7,15 @@ namespace GemstonesDefense.Content.Items;
 [AutoloadEquip(EquipType.Wings)]
 public class CabochonCloakItem : ModItem
 {
-    public override void SetStaticDefaults() {
+    public override void SetStaticDefaults()
+    {
         base.SetStaticDefaults();
 
         ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(210, 2f);
     }
 
-    public override void SetDefaults() {
+    public override void SetDefaults()
+    {
         base.SetDefaults();
 
         Item.accessory = true;
@@ -24,7 +26,8 @@ public class CabochonCloakItem : ModItem
         Item.height = 32;
     }
 
-    public override void AddRecipes() {
+    public override void AddRecipes()
+    {
         base.AddRecipes();
 
         CreateRecipe()
@@ -34,15 +37,17 @@ public class CabochonCloakItem : ModItem
             .AddIngredient(ItemID.Emerald, 10)
             .AddIngredient(ItemID.Amethyst, 10)
             .AddIngredient(ItemID.Topaz, 10)
-            .AddRecipeGroup(RecipeGroupSystem.GoldBar)
+            .AddRecipeGroup(GoldBarRecipeGroup.Group)
             .AddIngredient(ItemID.Silk)
             .Register();
     }
 
-    public override void UpdateAccessory(Player player, bool hideVisual) {
+    public override void UpdateAccessory(Player player, bool hideVisual)
+    {
         base.UpdateAccessory(player, hideVisual);
 
-        if (!player.TryGetModPlayer(out CabochonCloakPlayer modPlayer)) {
+        if (!player.TryGetModPlayer(out CabochonCloakPlayer modPlayer))
+        {
             return;
         }
 
@@ -56,11 +61,14 @@ public class CabochonCloakItem : ModItem
         player.GetCritChance(DamageClass.Generic) += 0.1f;
     }
 
-    public override void ModifyTooltips(List<TooltipLine> tooltips) {
+    public override void ModifyTooltips(List<TooltipLine> tooltips)
+    {
         base.ModifyTooltips(tooltips);
 
-        tooltips.Add(
-            new TooltipLine(Mod, $"{nameof(CabochonCloakItem)}:Ability", this.GetLocalizedValue("Ability")) {
+        tooltips.Add
+        (
+            new TooltipLine(Mod, $"{nameof(CabochonCloakItem)}:Ability", this.GetLocalizedValue("Ability"))
+            {
                 OverrideColor = new Color(112, 144, 219)
             }
         );

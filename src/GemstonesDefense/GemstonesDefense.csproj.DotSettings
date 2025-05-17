@@ -3,6 +3,6 @@
                         xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         xml:space="preserve">
 	<s:Boolean
-            x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=common_005Crecipes_005C_005Fgroups/@EntryIndexedValue">True</s:Boolean>
+        x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=common_005Crecipes_005C_005Fgroups/@EntryIndexedValue">True</s:Boolean>
     <s:Boolean
-            x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=utilities_005C_005Fextensions/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+        x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=utilities_005C_005Fextensions/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

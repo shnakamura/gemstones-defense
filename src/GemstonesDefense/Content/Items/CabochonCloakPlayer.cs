@@ -8,8 +8,10 @@ public sealed class CabochonCloakPlayer : ModPlayer
 {
     private static readonly MethodInfo NPCLoot_DropMoney_Info = typeof(NPC).GetMethod("NPCLoot_DropMoney", BindingFlags.Instance | BindingFlags.NonPublic);
 
-    static CabochonCloakPlayer() {
-        if (NPCLoot_DropMoney_Info != null) {
+    static CabochonCloakPlayer()
+    {
+        if (NPCLoot_DropMoney_Info != null)
+        {
             return;
         }
 
@@ -21,16 +23,19 @@ public sealed class CabochonCloakPlayer : ModPlayer
     /// </summary>
     public bool Enabled { get; set; }
 
-    public override void ResetEffects() {
+    public override void ResetEffects()
+    {
         base.ResetEffects();
 
         Enabled = false;
     }
 
-    public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+    public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+    {
         base.OnHitNPC(target, hit, damageDone);
 
-        if (!Enabled || target.life > 0) {
+        if (!Enabled || target.life > 0)
+        {
             return;
         }
 

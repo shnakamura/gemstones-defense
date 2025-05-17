@@ -14,7 +14,8 @@ public static class InputUtils
     /// <param name="key">The key to check.</param>
     /// <returns><c>true</c> if the client has the specified key pressed; otherwise, <c>false</c>.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsKeyDown(Keys key) {
+    public static bool IsKeyDown(Keys key)
+    {
         return Main.keyState.IsKeyDown(key);
     }
 
@@ -24,7 +25,8 @@ public static class InputUtils
     /// <param name="key">The key to check.</param>
     /// <returns><c>true</c> if the client had the specified key pressed; otherwise, <c>false</c>.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool WasKeyDown(Keys key) {
+    public static bool WasKeyDown(Keys key)
+    {
         return Main.oldKeyState.IsKeyDown(key);
     }
 }
