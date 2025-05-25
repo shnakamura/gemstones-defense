@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GemstonesDefense.Content.Buffs;
+using GemstonesDefense.Content.Buffs.Cabochon;
 using ReLogic.Content;
 using Terraria.DataStructures;
 

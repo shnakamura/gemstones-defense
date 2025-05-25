@@ -14,7 +14,7 @@ public sealed class FaoladhsForestPlayer : ModPlayer
     /// <summary>
     ///     The duration of the player's mount ability, in ticks.
     /// </summary>
-    public const int ABILITY_DURATION = 2 * 60;
+    public const int ABILITY_DURATION = 60;
 
     /// <summary>
     ///     The sound style played when the player's mount ability is used.
@@ -72,19 +72,12 @@ public sealed class FaoladhsForestPlayer : ModPlayer
             return;
         }
 
-        var landed = Player.velocity.Y == 0f && Player.oldVelocity.Y != 0f;
-
-        if (!landed)
-        {
-            return;
-        }
-
         foreach (var npc in Main.ActiveNPCs)
         {
             var hitbox = new Rectangle((int)Player.Center.X - 80, (int)Player.Center.Y - 40, 160, 80);
-            var collides = npc.Hitbox.Intersects(hitbox);
+            var collides = npc.Hitbox.Intersects(hitbox) && Player.velocity.Y >= 2f;
 
-            if (!collides || npc.friendly || npc.townNPC)
+            if (!collides || npc.friendly || npc.townNPC || !PlayerLoader.CanHitNPC(Player, npc))
             {
                 continue;
             }
@@ -95,10 +88,12 @@ public sealed class FaoladhsForestPlayer : ModPlayer
                 Knockback = 2f,
                 HitDirection = Player.direction
             };
-            
+
             npc.StrikeNPC(info);
             
             NetMessage.SendStrikeNPC(npc, in info);
+
+            Player.velocity.Y = -8f;
         }
     }
 
@@ -118,8 +113,8 @@ public sealed class FaoladhsForestPlayer : ModPlayer
         }
             
         Duration++;
-
-        if (Duration <= ABILITY_DURATION)
+        
+        if (Duration < ABILITY_DURATION)
         {
             return;
         }

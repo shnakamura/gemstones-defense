@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using GemstonesDefense.Common.Recipes;
 
-namespace GemstonesDefense.Content.Items;
+namespace GemstonesDefense.Content.Items.Cabochon;
 
 [AutoloadEquip(EquipType.Head)]
 public class CabochonCowlItem : ModItem

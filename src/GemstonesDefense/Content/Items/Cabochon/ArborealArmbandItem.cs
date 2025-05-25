@@ -1,6 +1,6 @@
 using GemstonesDefense.Content.Mounts;
 
-namespace GemstonesDefense.Content.Items;
+namespace GemstonesDefense.Content.Items.Cabochon;
 
 public class ArborealArmbandItem : ModItem
 {

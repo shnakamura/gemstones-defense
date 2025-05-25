@@ -8,6 +8,13 @@ public sealed class FaoladhsForestGlobalNPC : GlobalNPC
     {
         var player = Main.player[npc.target];
 
+        var mount = player.mount;
+
+        if (!mount.Active || mount.Type != ModContent.MountType<FaoladhsForestMount>())
+        {
+            return true;
+        }
+        
         var enabled = player.TryGetModPlayer(out FaoladhsForestPlayer modPlayer) && modPlayer.Enabled;
 
         var hasRange = npc.DistanceSQ(player.Center) <= DISTANCE * DISTANCE;

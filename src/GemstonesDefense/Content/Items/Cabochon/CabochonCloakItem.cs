@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using GemstonesDefense.Common.Recipes;
 using Terraria.DataStructures;
 
-namespace GemstonesDefense.Content.Items;
+namespace GemstonesDefense.Content.Items.Cabochon;
 
 [AutoloadEquip(EquipType.Wings)]
 public class CabochonCloakItem : ModItem
@@ -41,7 +41,7 @@ public class CabochonCloakItem : ModItem
             .AddIngredient(ItemID.Silk)
             .Register();
     }
-
+    
     public override void UpdateAccessory(Player player, bool hideVisual)
     {
         base.UpdateAccessory(player, hideVisual);
@@ -50,6 +50,8 @@ public class CabochonCloakItem : ModItem
         {
             return;
         }
+        
+        Lighting.AddLight(player.Center, Main.DiscoColor.ToVector3() * 0.75f * MathHelper.Clamp(player.velocity.Length() / player.maxRunSpeed, 0f, 1f));
 
         modPlayer.Enabled = true;
 

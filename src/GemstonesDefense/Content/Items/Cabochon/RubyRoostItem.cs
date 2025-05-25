@@ -1,7 +1,7 @@
-using GemstonesDefense.Content.Buffs;
+using GemstonesDefense.Content.Buffs.Cabochon;
 using GemstonesDefense.Content.Projectiles;
 
-namespace GemstonesDefense.Content.Items;
+namespace GemstonesDefense.Content.Items.Cabochon;
 
 public class RubyRoostItem : ModItem
 {

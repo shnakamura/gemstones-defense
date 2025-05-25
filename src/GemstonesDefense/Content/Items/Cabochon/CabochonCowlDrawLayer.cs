@@ -1,11 +1,26 @@
 using ReLogic.Content;
 using Terraria.DataStructures;
 
-namespace GemstonesDefense.Content.Items;
+namespace GemstonesDefense.Content.Items.Cabochon;
 
 public sealed class CabochonCowlDrawLayer : PlayerDrawLayer
 {
-    public static readonly Asset<Texture2D> HeadTexture = ModContent.Request<Texture2D>($"{nameof(GemstonesDefense)}/Content/Items/CabochonCowlItem_Head_Alt");
+    /// <summary>
+    ///     Gets or sets the head texture.
+    /// </summary>
+    public static Asset<Texture2D> HeadTexture { get; private set; }
+
+    public override void Load()
+    {
+        base.Load();
+
+        if (Main.dedServ)
+        {
+            return;
+        }
+
+        HeadTexture = ModContent.Request<Texture2D>($"{nameof(GemstonesDefense)}/Content/Items/Cabochon/CabochonCowlItem_Head_Alt");
+    }
 
     public override Position GetDefaultPosition()
     {

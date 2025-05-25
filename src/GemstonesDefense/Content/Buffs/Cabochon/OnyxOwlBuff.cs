@@ -1,6 +1,6 @@
 using GemstonesDefense.Content.Projectiles;
 
-namespace GemstonesDefense.Content.Buffs;
+namespace GemstonesDefense.Content.Buffs.Cabochon;
 
 public class OnyxOwlBuff : ModBuff
 {

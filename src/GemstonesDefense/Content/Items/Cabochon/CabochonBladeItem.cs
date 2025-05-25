@@ -1,6 +1,8 @@
-namespace GemstonesDefense.Content.Items;
+using GemstonesDefense.Common.Recipes;
 
-public class CabochonHeavyBladeItem : ModItem
+namespace GemstonesDefense.Content.Items.Cabochon;
+
+public class CabochonBladeItem : ModItem
 {
     public override void SetDefaults()
     {
@@ -9,15 +11,15 @@ public class CabochonHeavyBladeItem : ModItem
         Item.autoReuse = true;
 
         Item.DamageType = DamageClass.Melee;
-        Item.knockBack = 7f;
-        Item.damage = 100;
-        Item.crit = 15;
+        Item.knockBack = 5f;
+        Item.damage = 50;
+        Item.crit = 10;
 
-        Item.width = 84;
-        Item.height = 84;
+        Item.width = 60;
+        Item.height = 60;
 
-        Item.useTime = 20;
-        Item.useAnimation = 20;
+        Item.useTime = 16;
+        Item.useAnimation = 16;
         Item.UseSound = SoundID.Item1;
         Item.useStyle = ItemUseStyleID.Swing;
 
@@ -30,9 +32,14 @@ public class CabochonHeavyBladeItem : ModItem
         base.AddRecipes();
 
         CreateRecipe()
-            .AddIngredient<CabochonBladeItem>()
-            .AddIngredient(ItemID.CrystalShard, 50)
-            .AddTile(TileID.MythrilAnvil)
+            .AddIngredient(ItemID.Diamond, 5)
+            .AddIngredient(ItemID.Ruby, 5)
+            .AddIngredient(ItemID.Sapphire, 5)
+            .AddIngredient(ItemID.Emerald, 5)
+            .AddIngredient(ItemID.Amethyst, 5)
+            .AddIngredient(ItemID.Topaz, 5)
+            .AddRecipeGroup(GoldBarRecipeGroup.Group)
+            .AddTile(TileID.Anvils)
             .Register();
     }
 

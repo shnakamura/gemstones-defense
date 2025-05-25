@@ -1,4 +1,5 @@
 using GemstonesDefense.Content.Buffs;
+using GemstonesDefense.Content.Buffs.Cabochon;
 using Terraria.GameContent;
 
 namespace GemstonesDefense.Content.Projectiles;

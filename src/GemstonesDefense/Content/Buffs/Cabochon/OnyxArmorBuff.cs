@@ -1,6 +1,6 @@
-namespace GemstonesDefense.Content.Buffs;
+namespace GemstonesDefense.Content.Buffs.Cabochon;
 
-public class ObsidianArmorBuff : ModBuff
+public class OnyxArmorBuff : ModBuff
 {
     public override void SetStaticDefaults()
     {

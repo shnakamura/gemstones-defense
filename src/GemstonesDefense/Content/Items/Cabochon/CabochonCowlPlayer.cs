@@ -1,4 +1,4 @@
-namespace GemstonesDefense.Content.Items;
+namespace GemstonesDefense.Content.Items.Cabochon;
 
 /// <summary>
 /// </summary>

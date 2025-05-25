@@ -11,9 +11,9 @@ Items: {
 			'''
 		Ability:
 			'''
-			Obsidian Obelisk: While equipped alongside the 'Cabochon Cowl', double press and
+			Onyx Obelisk: While equipped alongside the 'Cabochon Cowl', double press and
 			hold the [UP] button to become a statue and gain the Granite Golem's invincibility
-			for as long as the [UP] button is held.
+			for as long as the [UP] button is held
 			'''
 	}
 
@@ -22,9 +22,9 @@ Items: {
 		Tooltip: +1 luck
 		Ability:
 			'''
-			Obsidian Obelisk: While equipped alongside the 'Cabochon Cloak', double press and
+			Onyx Obelisk: While equipped alongside the 'Cabochon Cloak', double press and
 			hold the [UP] button to become a statue and gain the Granite Golem's invincibility
-			for as long as the [UP] button is held.
+			for as long as the [UP] button is held
 			'''
 	}
 
@@ -50,12 +50,17 @@ Items: {
 
 	ArborealArmbandItem: {
 		DisplayName: Arboreal Armband
-		Tooltip: ""
+		Tooltip: It summons the Forest
 	}
 
 	CabochonHeavyBladeItem: {
 		DisplayName: Cabochon Heavy Blade
 		Tooltip: ""
+	}
+	
+	OnyxItem: {
+	    DisplayName: Onyx
+	    Tooltip: ""
 	}
 }
 
@@ -65,8 +70,8 @@ Buffs: {
 		Description: It hangs upon nothing...
 	}
 
-	ObsidianArmorBuff: {
-		DisplayName: Obsidian Armor
+	OnyxArmorBuff: {
+		DisplayName: Onyx Armor
 		Description: Impenetrable
 	}
 
@@ -76,8 +81,8 @@ Buffs: {
 	}
 
 	FaoladhsForestBuff: {
-		DisplayName: Name
-		Description: Description
+		DisplayName: Faolahd's Forest
+		Description: The forest itself rises and takes shape of a monstrous wolf
 	}
 }
 

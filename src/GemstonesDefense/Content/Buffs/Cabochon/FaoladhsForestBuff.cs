@@ -1,6 +1,6 @@
 using GemstonesDefense.Content.Mounts;
 
-namespace GemstonesDefense.Content.Buffs;
+namespace GemstonesDefense.Content.Buffs.Cabochon;
 
 public class FaoladhsForestBuff : ModBuff
 {
